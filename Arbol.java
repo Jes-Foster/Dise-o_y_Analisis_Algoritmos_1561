@@ -1,88 +1,75 @@
 
-package com.mycompany.jes.arboles3;
+package com.mycompany.jes.t6;
 
 
-public class Arbol {
-      
-    
-    nodo raiz;
-    public Arbol(){
-        raiz = null;
+
+
+
+
+class Arbol {
+    private Node root;
+
+    public Arbol() {
+        this.root = null;
     }
+
     
-    
-    public void insertar(double i, Object info){
-        nodo n = new nodo(i);
-        n.contenido = info;
-        
-        if(raiz==null) {
-            raiz=n;
-            
-        }else{
-            nodo aux = raiz;
-            while(aux != null) {
-                n.padre = aux;
-                if(n.identificador >= aux.identificador) {
-                    aux=aux.derecha;
-                    
-                } else{
-                    aux=aux.centro;
-                     
-                }
-            }
-            
-            
-            if(n.identificador < n.padre.identificador){
-                n.padre.izquierda = n;
-                
-            } else{
-                n.padre.derecha = n;
-            }
-            
-        }
-    
-         System.out.println("Indice " +n.identificador+" Contenido: "+n.contenido);
-        
-    }
-    
-    //public void recorrer(nodo n){
-     //   if(n != null){
-       //     recorrer(n.izquierda);
-         //   System.out.println("indice " +n.identificador+" info "+n.contenido);
-           // recorrer(n.derecha);
-            
-        //}
-        
-       
-    
-    
-    
-    public class nodo {
-        
-        public nodo padre;
-        public nodo izquierda;
-        public nodo centro;
-        public nodo derecha;
-        
-        
-        public double identificador;
-        
-        public Object contenido;
-        
-        
-        
-        
-        public nodo(double indice) {
-            identificador = indice;
-            derecha  = null;
-            izquierda = null;
-            centro = null;
-            padre = null;
-            contenido = null;
+    public void insert(int key, Alumno value) {
+        if (root == null) {
+            root = new Node(key, value);
+        } else {
+            insert(root, key, value);
         }
     }
-    
-    
-    
+
+    private void insert(Node node, int key, Alumno value) {
+        if (key < node.getKey()) {
+            if (node.getLeft() == null) {
+                node.setLeft(new Node(key, value));
+            } else {
+                insert(node.getLeft(), key, value);
+            }
+        } else {
+            if (node.getRight() == null) {
+                node.setRight(new Node(key, value));
+            } else {
+                insert(node.getRight(), key, value);
+            }
+        }
+    }
+
+   public Alumno search(int key) {
+        return search(root, key);
+    }
+
+    private Alumno search(Node node, int key) {
+        if (node == null || node.getKey() == key) {
+            return node == null ? null : node.getValue();
+        }
+        if (key < node.getKey()) {
+            return search(node.getLeft(), key);
+        }
+        return search(node.getRight(), key);
+    }
+
+
+
+public void recorrerABB() {
+        recorrerABB(root);
+    }
+
+    private void recorrerABB(Node node) {
+        if (node != null) {
+            recorrerABB(node.left);
+            
+            System.out.println("\n");
+            System.out.println("************");
+            System.out.println("Numero de cuenta: " + node.value.getNumeroCuenta());
+            System.out.println("Nombre completo: " + node.value.getNombre());
+            System.out.println("Materias: " + String.join(", ", node.value.getMaterias()));
+            System.out.println("Promedio general: " + String.format("%.1f", node.value.getPromedio()));
+            recorrerABB(node.right);
+        }
+    }
+
 }
-
